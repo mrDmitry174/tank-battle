@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tank Battle</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Главное меню -->
+        <div class="menu">
+            <button id="createGame" class="menu-button">Создать игру</button>
+            <button id="selectGame" class="menu-button">Найти игру</button>
+            <button id="selectTank" class="menu-button">Выбрать танк</button>
+            <button id="createMap" class="menu-button">Создать карту</button>
+            <button id="createSprite" class="menu-button">Создать спрайт</button>
+        </div>
+
+        <!-- Меню создания игры -->
+        <div class="game-creation-menu" style="display: none;">
+            <h2>Выберите тип игры</h2>
+            <div class="game-types">
+                <button data-type="1x1" class="menu-button game-type">1 на 1</button>
+                <button data-type="3x3" class="menu-button game-type">3 на 3</button>
+                <button data-type="5x5" class="menu-button game-type">5 на 5</button>
+            </div>
+            <button class="menu-button back-button">Назад</button>
+        </div>
+
+        <!-- Список доступных игр -->
+        <div class="game-list-menu" style="display: none;">
+            <h2>Доступные игры</h2>
+            <div class="games-container">
+                <!-- Игры будут добавляться динамически -->
+            </div>
+            <div class="game-list-controls">
+                <button class="menu-button refresh-button">Обновить</button>
+                <button class="menu-button back-button">Назад</button>
+            </div>
+        </div>
+
+        <!-- Комната ожидания -->
+        <div class="waiting-room" style="display: none;">
+            <h2>Комната ожидания</h2>
+            <div class="room-info">
+                <div class="game-type-info"></div>
+                <div class="players-list"></div>
+            </div>
+            <div class="team-selection">
+                <button class="team-button team-green">Зеленые</button>
+                <button class="team-button team-red">Красные</button>
+            </div>
+            <button class="menu-button ready-button">Готов</button>
+            <button class="menu-button leave-button">Покинуть игру</button>
+        </div>
+
+        <!-- Остальные существующие секции -->
+        <div class="tank-selector" style="display: none;">
+            <h2>Выберите танк</h2>
+            <div class="tank-options">
+                <div class="tank-option default-tank selected">
+                    <div class="tank-preview default"></div>
+                    <div class="tank-name">Стандартный</div>
+                </div>
+                <div class="tank-option custom-tank">
+                    <div class="tank-preview custom"></div>
+                    <div class="tank-name">Мой танк</div>
+                </div>
+            </div>
+            <div class="tank-stats">
+                <div class="stats-title">Характеристики</div>
+                <div class="stat-row">
+                    <label>Скорость танка (0)</label>
+                    <div class="upgrade-progress">
+                        <div class="progress-bar" id="tankSpeedProgress"></div>
+                    </div>
+                    <button class="upgrade-btn" data-upgrade="tankSpeed">+</button>
+                </div>
+                <div class="stat-row">
+                    <label>Скорость пули (0)</label>
+                    <div class="upgrade-progress">
+                        <div class="progress-bar" id="bulletSpeedProgress"></div>
+                    </div>
+                    <button class="upgrade-btn" data-upgrade="bulletSpeed">+</button>
+                </div>
+                <div class="stat-row">
+                    <label>Скорость стрельбы (0)</label>
+                    <div class="upgrade-progress">
+                        <div class="progress-bar" id="reloadTimeProgress"></div>
+                    </div>
+                    <button class="upgrade-btn" data-upgrade="reloadTime">+</button>
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="backFromTankSelect">Назад</button>
+                <button id="selectTankBtn">Выбрать</button>
+            </div>
+        </div>
+
+        <div class="sprite-editor" style="display: none;">
+            <canvas id="spriteCanvas" width="368" height="698"></canvas>
+            <div class="sprite-tools">
+                <div class="sprite-color-palette">
+                    <button class="color-btn" data-color="#4CAF50" style="background-color: #4CAF50"></button>
+                    <button class="color-btn" data-color="#F44336" style="background-color: #F44336"></button>
+                    <button class="color-btn" data-color="#2196F3" style="background-color: #2196F3"></button>
+                    <button class="color-btn" data-color="#FFC107" style="background-color: #FFC107"></button>
+                    <button class="color-btn" data-color="#9C27B0" style="background-color: #9C27B0"></button>
+                    <button class="color-btn" data-color="#FF9800" style="background-color: #FF9800"></button>
+                </div>
+                <div class="sprite-controls">
+                    <button id="saveSprite">Сохранить</button>
+                    <button id="clearSprite">Очистить</button>
+                    <button id="backToMenu">Назад</button>
+                </div>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas" style="display: none;"></canvas>
+    </div>
+
+    <!-- Скрипты -->
+    <script src="game/Tank.js"></script>
+    <script src="game/GameField.js"></script>
+    <script src="game/SpriteManager.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 
